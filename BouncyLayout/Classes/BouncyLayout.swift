@@ -1,6 +1,6 @@
 import UIKit
 
-public class BouncyLayout: UICollectionViewFlowLayout {
+open class BouncyLayout: UICollectionViewFlowLayout {
     
     public enum BounceStyle {
         case subtle
@@ -43,7 +43,7 @@ public class BouncyLayout: UICollectionViewFlowLayout {
     
     private lazy var animator: UIDynamicAnimator = UIDynamicAnimator(collectionViewLayout: self)
     
-    public override func prepare() {
+    open override func prepare() {
         super.prepare()
         guard let view = collectionView, let attributes = super.layoutAttributesForElements(in: view.bounds)?.flatMap({ $0.copy() as? UICollectionViewLayoutAttributes }) else { return }
         
@@ -64,15 +64,15 @@ public class BouncyLayout: UICollectionViewFlowLayout {
         return attributes.flatMap { return indexPaths.contains($0.indexPath) ? nil : UIAttachmentBehavior(item: $0, attachedToAnchor: $0.center) }
     }
     
-    public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return animator.items(in: rect) as? [UICollectionViewLayoutAttributes]
     }
     
-    public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return animator.layoutAttributesForCell(at: indexPath) ?? super.layoutAttributesForItem(at: indexPath)
     }
     
-    public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+    open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         guard let view = collectionView else { return false }
         
         animator.behaviors.forEach {
